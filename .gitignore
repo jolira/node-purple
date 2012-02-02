@@ -2,4 +2,6 @@ node_modules
 docs/*.html
 docs/meta.json
 .nide
+.lock-wscript
+build
 *~
