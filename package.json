@@ -1,0 +1,26 @@
+{
+  "name": "purple",
+  "version": "0.0.1",
+  "description": "send and receive message using GTalk, Yahoo, Facebook, etc from your node.js application; wraps libpurple",
+  "keywords": ["instant message", "IM", "purple", "gtalk",  "yahoo", "facebook", "bonjour" ],
+  "repository": "git://github.com/jolira/node-purple.git",
+  "author": "Joachim Kainz <jfk@jolira.com> (http://www.jolira.com)",
+  "repository": {
+    "url": "https://github.com/jolira/node-purple.git",
+    "type": "git"
+  },
+  "bin": {
+    "send-msg": "bin/send-msg"
+  },
+  "scripts": {
+    "prepublish": "npm prune"
+  },
+  "bugs": {
+    "mail": "dev@jolira.com",
+    "url": "http://github.com/jolira/node-purple/issues"
+  },
+  "dependencies": {
+  },
+  "main": "index",
+  "engines": { "node": ">= 0.5.0 < 0.7.0" }
+}
