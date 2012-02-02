@@ -13,7 +13,9 @@
     "send-msg": "bin/send-msg"
   },
   "scripts": {
-    "prepublish": "npm prune"
+    "prepublish": "npm prune",
+    "preinstall": "make || gmake",
+    "test": "node test/reader.js"
   },
   "bugs": {
     "mail": "dev@jolira.com",
