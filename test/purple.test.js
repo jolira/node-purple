@@ -16,5 +16,19 @@ vows.describe('instant messages').addBatch({
         'result is undefined': function (result) {
             assert.equal (result, undefined);
         }
+    },
+    'enable debugging': {
+        topic: purple.debug.setEnabled(true),
+
+        'result is undefined': function (result) {
+            assert.equal (result, undefined);
+        }
+    },
+    'disable debugging': {
+        topic: purple.debug.setEnabled(false),
+
+        'result is undefined': function (result) {
+            assert.equal (result, undefined);
+        }
     }
 }).run();

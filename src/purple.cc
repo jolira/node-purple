@@ -16,12 +16,6 @@ Handle<Value> PurpleCoreSetUiOps(const Arguments& args) {
 
 Handle<Value> PurpleUtilSetUserDir(const Arguments& args) {
     HandleScope scope;
-
-    if (args.Length() != 1 || !args[0]->IsString()) {
-        ThrowException(Exception::TypeError(String::New("Invalid arguments")));
-        return scope.Close(Undefined());
-    }
-
     Local<Value> directory = args[0];
     String::Utf8Value utf8directory(directory);
 
@@ -32,12 +26,6 @@ Handle<Value> PurpleUtilSetUserDir(const Arguments& args) {
 
 Handle<Value> PurpleDebugSetEnabled(const Arguments& args) {
     HandleScope scope;
-
-    if (args.Length() != 1 || !args[0]->IsBoolean()) {
-        ThrowException(Exception::TypeError(String::New("Invalid arguments")));
-        return scope.Close(Undefined());
-    }
-
     bool flag = args[0]->BooleanValue();
     
     purple_debug_set_enabled(flag);
