@@ -30,5 +30,23 @@ vows.describe('instant messages').addBatch({
         'result is undefined': function (result) {
             assert.equal (result, undefined);
         }
+    },
+    'install no ui callbacks': {
+        topic: purple.core.setUiOps(),
+
+        'result is undefined': function (result) {
+            assert.equal (result, undefined);
+        }
+    },
+    'install ui callbacks': {
+        topic: purple.core.setUiOps({
+          "ui_prefs_init" : function() { conole.log("ui_prefs_init called"); },
+          "debug_ui_init" : function() { conole.log("debug_ui_init called"); },
+          "ui_init" : function() { conole.log("ui_init called"); }
+        }),
+
+        'result is undefined': function (result) {
+            assert.equal (result, undefined);
+        }
     }
 }).run();
