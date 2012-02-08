@@ -160,13 +160,46 @@ static Handle<Value> Initialize(const Arguments& args) {
     return scope.Close(Undefined());
 }
 
+static const char* toCString(const Local<Value>& val) {
+    String::Utf8Value utf8(val);
+    
+    return *utf8;
+}
+
 static Handle<Value> Start(const Arguments& args) {
     HandleScope scope;
-    Local<Value> directory = args[0];
-    String::Utf8Value utf8directory(directory);
 
-    purple_util_set_user_dir(*utf8directory);
+	/* Set a custom user directory (optional) */
+    purple_util_set_user_dir(toCString(args[0]));
+
+	/* Set path to search for plugins. The core (libpurple) takes care of loading the
+	 * core-plugins, which includes the protocol-plugins. So it is not essential to add
+	 * any path here, but it might be desired, especially for ui-specific plugins. */
+	purple_plugins_add_search_path(toCString(args[1]));
     
+	/* Now that all the essential stuff has been set, let's try to init the core. It's
+	 * necessary to provide a non-NULL name for the current ui to the core. This name
+	 * is used by stuff that depends on this ui, for example the ui-specific plugins. */
+	if (!purple_core_init("node-purple")) {
+		/* Initializing the core failed. Terminate. */
+        ThrowException(Exception::TypeError(String::New("libpurple initialization failed.")));
+        return scope.Close(Undefined());
+	}
+
+	/* Create and load the buddylist. */
+	purple_set_blist(purple_blist_new());
+	purple_blist_load();
+    
+	/* Load the preferences. */
+	purple_prefs_load();
+    
+	/* Load the desired plugins. The client should save the list of loaded plugins in
+	 * the preferences using purple_plugins_save_loaded(PLUGIN_SAVE_PREF) */
+	purple_plugins_load_saved(toCString(args[3]));
+    
+	/* Load the pounces. */
+	purple_pounces_load();
+
     return scope.Close(Undefined());
 }
 
@@ -176,4 +209,5 @@ void init(Handle<Object> target) {
     target->Set(String::NewSymbol("init"),
                 FunctionTemplate::New(Initialize)->GetFunction());
 }
+
 NODE_MODULE(purple, init)
